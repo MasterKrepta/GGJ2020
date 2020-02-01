@@ -9,7 +9,8 @@ public class Swing : MonoBehaviour
     DistanceJoint2D joint;
     Vector3 targetPos;
     RaycastHit2D hit;
-    float distance = 100f;
+    Collider2D collider;
+    public float distance = 50f;
     public LayerMask mask;
     public float grappleSpeed = 0.5f;
     public GameObject Building;
@@ -17,7 +18,7 @@ public class Swing : MonoBehaviour
 
     private void Awake()
     {
-
+        collider = GetComponent<Collider2D>();
         joint = GetComponent<DistanceJoint2D>();
         joint.enabled = false;
         line.enabled = false;
@@ -52,30 +53,14 @@ public class Swing : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                //print($"we hit {hit.transform.name}");
-
                 joint.enabled = true;
                 //joint.connectedBody = hit.collider.gameObject.GetComponent<Rigidbody2D>();
                 //joint.connectedAnchor = hit.point - new Vector2(hit.collider.transform.position.x, hit.collider.transform.position.y);
                 joint.connectedAnchor = targetPos;
                 joint.distance = Vector2.Distance(transform.position, targetPos);
-
-               
             }
         }
-        //todo these controls let us cancel mid swing
-        //if (Input.GetMouseButton(0))
-        //{
-        //    line.SetPosition(1, targetPos);
-        //}
 
-        //if (Input.GetMouseButtonUp(0))
-        //{
-        //    joint.enabled = false;
-        //    line.enabled = false;
-        //}
-
-   
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -83,12 +68,29 @@ public class Swing : MonoBehaviour
         if (collision.CompareTag("Debris"))
         {
             print("hit");
+
+
+            if (transform.GetChild(0).childCount > 0)
+            {
+                StartCoroutine(TogglePlayerCollider());
+                transform.GetChild(0).GetChild(0).parent = null;
+            }
+         
+            StartCoroutine( GetComponent<FlashOnHit>().Flash());
             DetachPlayer();
         }
     }
 
+    IEnumerator TogglePlayerCollider() {
+        //Stop us from picking up the gameobject again after hit
+        collider.enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        collider.enabled = true;
+    }
+
     public void DetachPlayer()
     {
+        
         line.enabled = false;
         joint.enabled = false;
     }
