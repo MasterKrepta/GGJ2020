@@ -7,43 +7,55 @@ public class Swing : MonoBehaviour
 
     public LineRenderer line;
     DistanceJoint2D joint;
+    HingeJoint2D hingeJoint;
     Vector3 targetPos;
     RaycastHit2D hit;
+    Rigidbody2D rb;
     Collider2D collider;
     public float distance = 50f;
     public LayerMask mask;
     public float grappleSpeed = 0.5f;
-    public GameObject Building;
+ 
     public float disconnectDistance = 1f;
 
     private void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
         joint = GetComponent<DistanceJoint2D>();
+        hingeJoint = GetComponent<HingeJoint2D>();
         joint.enabled = false;
-        line.enabled = false;
     }
+    IEnumerator ToggleGravity()
+    {
+            rb.gravityScale = 0;
+            yield return new WaitForSeconds(.5f);
+            rb.gravityScale = 1;
+    }
+
+    
     private void Update()
     {
-   
+
+
         if (joint.distance > disconnectDistance)
         {
             joint.distance -= grappleSpeed;
             line.SetPosition(0, transform.position);
-            
         }
         else
         {
+          
             DetachPlayer();
-
         }
+
         if (Input.GetMouseButton(0))
         {
             targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //targetPos.z = 0;
             line.enabled = true;
-            line.SetPosition(0, transform.position);
-            line.SetPosition(1, targetPos);
+            line.SetPosition(1, transform.position);
+            line.SetPosition(0, targetPos);
 
             hit = Physics2D.Raycast(transform.position, targetPos - transform.position, distance, mask);
 
@@ -54,8 +66,6 @@ public class Swing : MonoBehaviour
             if (hit.collider != null)
             {
                 joint.enabled = true;
-                //joint.connectedBody = hit.collider.gameObject.GetComponent<Rigidbody2D>();
-                //joint.connectedAnchor = hit.point - new Vector2(hit.collider.transform.position.x, hit.collider.transform.position.y);
                 joint.connectedAnchor = targetPos;
                 joint.distance = Vector2.Distance(transform.position, targetPos);
             }
@@ -67,9 +77,6 @@ public class Swing : MonoBehaviour
     {
         if (collision.CompareTag("Debris"))
         {
-            print("hit");
-
-
             if (transform.GetChild(0).childCount > 0)
             {
                 StartCoroutine(TogglePlayerCollider());
@@ -90,7 +97,6 @@ public class Swing : MonoBehaviour
 
     public void DetachPlayer()
     {
-        
         line.enabled = false;
         joint.enabled = false;
     }
