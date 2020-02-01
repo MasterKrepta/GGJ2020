@@ -6,8 +6,8 @@ public class Swing : MonoBehaviour
 {
 
     public LineRenderer line;
-    //DistanceJoint2D joint;
-    SpringJoint2D joint;
+    DistanceJoint2D joint;
+    //SpringJoint2D joint;
     Vector3 targetPos;
     RaycastHit2D hit;
     Animator anim;
@@ -18,36 +18,42 @@ public class Swing : MonoBehaviour
     public float grappleSpeed = 0.5f;
     public float maxVelocity = 10f;
     bool isFacingRight = true;
- 
-    public float disconnectDistance = 1f;
+    public float maxDistance = 20;
+    public float disconnectDistance = 2f;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
-        //joint = GetComponent<DistanceJoint2D>();
-        joint = GetComponent<SpringJoint2D>();
+        joint = GetComponent<DistanceJoint2D>();
+        //joint = GetComponent<SpringJoint2D>();
         joint.enabled = false;
         line.enabled = false;
     }
    
     private void Update()
     {
-
+        
 
         if (joint.distance > disconnectDistance)
         {
+            joint.enabled = true;
             joint.distance -= grappleSpeed;
             line.enabled = false;
             //line.SetPosition(0, transform.position);
         }
         else
         {
-          
+            print("detach was called");
             DetachPlayer();
         }
 
+        //if (joint.distance > maxDistance)
+        //{
+        //    print("too long, detach was called");
+        //    DetachPlayer();
+        //}
         if (Input.GetMouseButton(0))
         {
             anim.SetTrigger("Shooting");
@@ -78,9 +84,13 @@ public class Swing : MonoBehaviour
                 anim.StopPlayback();
                 anim.SetTrigger("Pull");
               
-                joint.enabled = true;
+                
                 joint.connectedAnchor = targetPos;
-                joint.distance = Vector2.Distance(transform.position, targetPos);
+                joint.connectedBody = hit.collider.GetComponent<Rigidbody2D>();
+                joint.distance = Vector2.Distance(transform.position, hit.point);
+                joint.distance = Mathf.Clamp(joint.distance, 0, maxDistance);
+
+               
             }
         }
     }

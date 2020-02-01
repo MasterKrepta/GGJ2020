@@ -19,7 +19,7 @@ public class ApplyColorOnActivaated : MonoBehaviour
 
     public void ActivateLights()
     {
-       print($"{gameObject.name} is now active");
+ 
        mr.material = DamagedMaterial;
     }
 

@@ -17,6 +17,7 @@ public class Pickup : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             transform.parent = collision.transform.GetChild(0);
+            ArrowManager.OnPickup();
         }
     }
 
