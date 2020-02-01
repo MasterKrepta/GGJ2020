@@ -3,6 +3,7 @@
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "1.2.16",
     "com.unity.package-manager-ui": "2.2.0",
+    "com.unity.postprocessing": "2.1.7",
     "com.unity.textmeshpro": "2.0.1",
     "com.vladfaust.unitywakatime": "file:com.vladfaust.unitywakatime",
     "com.unity.modules.ai": "1.0.0",
