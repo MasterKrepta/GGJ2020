@@ -10,16 +10,20 @@ public class Swing : MonoBehaviour
     SpringJoint2D joint;
     Vector3 targetPos;
     RaycastHit2D hit;
+    Animator anim;
     Rigidbody2D rb;
     Collider2D collider;
     public float distance = 50f;
     public LayerMask mask;
     public float grappleSpeed = 0.5f;
+    public float maxVelocity = 10f;
+    bool isFacingRight = true;
  
     public float disconnectDistance = 1f;
 
     private void Awake()
     {
+        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
         //joint = GetComponent<DistanceJoint2D>();
@@ -35,7 +39,8 @@ public class Swing : MonoBehaviour
         if (joint.distance > disconnectDistance)
         {
             joint.distance -= grappleSpeed;
-            line.SetPosition(0, transform.position);
+            line.enabled = false;
+            //line.SetPosition(0, transform.position);
         }
         else
         {
@@ -45,28 +50,51 @@ public class Swing : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
+            anim.SetTrigger("Shooting");
             targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //targetPos.z = 0;
+
+            if (transform.position.x < targetPos.x && !isFacingRight)
+            {
+                FlipSprite();
+            }
+            else if (transform.position.x > targetPos.x && isFacingRight)
+            {
+                FlipSprite();
+            }
+           
             line.enabled = true;
             line.SetPosition(1, transform.position);
             line.SetPosition(0, targetPos);
 
-            hit = Physics2D.Raycast(transform.position, targetPos - transform.position, distance, mask);
-
+           // hit = Physics2D.Raycast(transform.position, targetPos - transform.position, distance, mask);
+            hit = Physics2D.Raycast(targetPos, targetPos - transform.position, distance, mask);
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             if (hit.collider != null)
             {
+                anim.SetTrigger("Shooting");
+              
                 joint.enabled = true;
                 joint.connectedAnchor = targetPos;
                 joint.distance = Vector2.Distance(transform.position, targetPos);
             }
         }
-
     }
+    void FlipSprite()
+    {
+        isFacingRight = !isFacingRight;
 
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+    }
+    private void FixedUpdate()
+    {
+        //rb.velocity = Vector2.ClampMagnitude(rb.velocity.magnitude, maxVelocity);
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Debris"))
@@ -85,7 +113,7 @@ public class Swing : MonoBehaviour
     IEnumerator TogglePlayerCollider() {
         //Stop us from picking up the gameobject again after hit
         collider.enabled = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         collider.enabled = true;
     }
 
