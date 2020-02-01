@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Swing : MonoBehaviour
 {
-   
+
     public LineRenderer line;
     DistanceJoint2D joint;
     Vector3 targetPos;
@@ -24,7 +24,7 @@ public class Swing : MonoBehaviour
     }
     private void Update()
     {
-
+   
         if (joint.distance > disconnectDistance)
         {
             joint.distance -= grappleSpeed;
@@ -33,18 +33,23 @@ public class Swing : MonoBehaviour
         }
         else
         {
-            line.enabled = false;
-            joint.enabled = false;
-           
+            DetachPlayer();
+
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             //targetPos.z = 0;
-            
+            line.enabled = true;
+            line.SetPosition(0, transform.position);
+            line.SetPosition(1, targetPos);
+
             hit = Physics2D.Raycast(transform.position, targetPos - transform.position, distance, mask);
 
+        }
 
+        if (Input.GetMouseButtonUp(0))
+        {
             if (hit.collider != null)
             {
                 //print($"we hit {hit.transform.name}");
@@ -55,16 +60,13 @@ public class Swing : MonoBehaviour
                 joint.connectedAnchor = targetPos;
                 joint.distance = Vector2.Distance(transform.position, targetPos);
 
-                line.enabled = true;
-                line.SetPosition(0, transform.position);
-                line.SetPosition(1, targetPos);
+               
             }
         }
-
         //todo these controls let us cancel mid swing
         //if (Input.GetMouseButton(0))
         //{
-        //    line.SetPosition(0, transform.position);
+        //    line.SetPosition(1, targetPos);
         //}
 
         //if (Input.GetMouseButtonUp(0))
@@ -72,8 +74,23 @@ public class Swing : MonoBehaviour
         //    joint.enabled = false;
         //    line.enabled = false;
         //}
+
+   
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Debris"))
+        {
+            print("hit");
+            DetachPlayer();
+        }
+    }
 
+    public void DetachPlayer()
+    {
+        line.enabled = false;
+        joint.enabled = false;
+    }
 }
 

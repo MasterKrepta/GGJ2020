@@ -7,19 +7,21 @@ public class ClampPlayerToScreen : MonoBehaviour
     Vector2 screenBounds;
     float playerWidth;
     float playerHeight;
+    Camera MainCamera;
 
     private void Start()
     {
-        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        MainCamera = Camera.main;
+        
         playerWidth = transform.GetComponent<SpriteRenderer>().bounds.size.x / 2;
         playerHeight = transform.GetComponent<SpriteRenderer>().bounds.size.y / 2;
     }
     // Update iUpdates called once per frame
     void LateUpdate()
     {
-        Vector3 viewPos = transform.position;
-        viewPos.x = Mathf.Clamp(viewPos.x, screenBounds.x + playerWidth, screenBounds.x * -1 - playerWidth);
-        viewPos.y = Mathf.Clamp(viewPos.y, screenBounds.y + playerHeight, screenBounds.y * -1 - playerWidth);
-        transform.position = viewPos;
+        screenBounds = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height, Camera.main.transform.position.z));
+        transform.position = new Vector3(Mathf.Clamp(transform.position.x, (screenBounds.x - playerWidth) * - 1, screenBounds.x - playerWidth),
+                                         Mathf.Clamp(transform.position.y, (screenBounds.y - playerHeight) * -1, screenBounds.y - playerHeight),
+                                         0);
     }
 }
