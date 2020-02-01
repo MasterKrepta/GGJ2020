@@ -21,6 +21,7 @@ public class Swing : MonoBehaviour
     public float maxDistance = 20;
     public float disconnectDistance = 2f;
 
+    
     private void Awake()
     {
         anim = GetComponent<Animator>();
@@ -49,11 +50,6 @@ public class Swing : MonoBehaviour
             DetachPlayer();
         }
 
-        //if (joint.distance > maxDistance)
-        //{
-        //    print("too long, detach was called");
-        //    DetachPlayer();
-        //}
         if (Input.GetMouseButton(0))
         {
             anim.SetTrigger("Shooting");
