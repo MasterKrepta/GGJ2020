@@ -4,16 +4,30 @@ using UnityEngine;
 
 public class ApplyColorOnActivaated : MonoBehaviour
 {
-    public Color ActivatedColor;
+    public Material SafeMaterial, DamagedMaterial;
+    MeshRenderer mr;
     // Start is called before the first frame update
-    void Start()
+    private void OnEnable()
     {
-        
+        mr = GetComponent<MeshRenderer>();
+        //GameManager.OnDelivered += DeactivateLights;
+    }
+    private void OnDisable()
+    {
+        //GameManager.OnDelivered -= DeactivateLights;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void ActivateLights()
     {
+       print($"{gameObject.name} is now active");
+       mr.material = DamagedMaterial;
+    }
+
+
+    public void DeactivateLights()
+    {
+
+        mr.material = SafeMaterial;
         
     }
 }

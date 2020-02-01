@@ -75,7 +75,8 @@ public class Swing : MonoBehaviour
         {
             if (hit.collider != null)
             {
-                anim.SetTrigger("Shooting");
+                anim.StopPlayback();
+                anim.SetTrigger("Pull");
               
                 joint.enabled = true;
                 joint.connectedAnchor = targetPos;
