@@ -6,8 +6,8 @@ public class Swing : MonoBehaviour
 {
 
     public LineRenderer line;
-    DistanceJoint2D joint;
-    HingeJoint2D hingeJoint;
+    //DistanceJoint2D joint;
+    SpringJoint2D joint;
     Vector3 targetPos;
     RaycastHit2D hit;
     Rigidbody2D rb;
@@ -22,18 +22,12 @@ public class Swing : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
-        joint = GetComponent<DistanceJoint2D>();
-        hingeJoint = GetComponent<HingeJoint2D>();
+        //joint = GetComponent<DistanceJoint2D>();
+        joint = GetComponent<SpringJoint2D>();
         joint.enabled = false;
+        line.enabled = false;
     }
-    IEnumerator ToggleGravity()
-    {
-            rb.gravityScale = 0;
-            yield return new WaitForSeconds(.5f);
-            rb.gravityScale = 1;
-    }
-
-    
+   
     private void Update()
     {
 

@@ -11,10 +11,11 @@ GameObject:
   - component: {fileID: 3556784871816968700}
   - component: {fileID: 3556784871816968691}
   - component: {fileID: 3556784871816968690}
-  - component: {fileID: 3556784871816968702}
   - component: {fileID: 3556784871816968701}
   - component: {fileID: 72567208}
   - component: {fileID: 72567207}
+  - component: {fileID: 72567210}
+  - component: {fileID: 72567209}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -57,7 +58,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!212 &3556784871816968690
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -108,25 +109,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!232 &3556784871816968702
-DistanceJoint2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3556784871816968689}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_EnableCollision: 0
-  m_ConnectedRigidBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_AutoConfigureConnectedAnchor: 0
-  m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0, y: 0}
-  m_AutoConfigureDistance: 0
-  m_Distance: 1.1236427
-  m_MaxDistanceOnly: 0
 --- !u!114 &3556784871816968701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,8 +126,7 @@ MonoBehaviour:
   mask:
     serializedVersion: 2
     m_Bits: 256
-  grappleSpeed: 0.5
-  Building: {fileID: 0}
+  grappleSpeed: 0.2
   disconnectDistance: 1
 --- !u!61 &72567208
 BoxCollider2D:
@@ -185,6 +166,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 874aec479708df44f9686bb299bce7ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!231 &72567210
+SpringJoint2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3556784871816968689}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_EnableCollision: 0
+  m_ConnectedRigidBody: {fileID: 0}
+  m_BreakForce: Infinity
+  m_BreakTorque: Infinity
+  m_AutoConfigureConnectedAnchor: 0
+  m_Anchor: {x: 0, y: 0}
+  m_ConnectedAnchor: {x: 0, y: 0}
+  m_AutoConfigureDistance: 0
+  m_Distance: 10.69
+  m_DampingRatio: 0.5
+  m_Frequency: 1
+--- !u!114 &72567209
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3556784871816968689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f91029d957f269d4fae8c8ddb2531f1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  original: {r: 0, g: 0, b: 0, a: 0}
+  hitColor: {r: 1, g: 0, b: 0, a: 1}
+  flashTime: 0.3
 --- !u!1 &6725980891220723990
 GameObject:
   m_ObjectHideFlags: 0
