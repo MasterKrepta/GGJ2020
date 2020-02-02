@@ -6,8 +6,8 @@ public class Swing : MonoBehaviour
 {
 
     public LineRenderer line;
-    DistanceJoint2D joint;
-    //SpringJoint2D joint;
+    //DistanceJoint2D joint;
+    SpringJoint2D joint;
     Vector3 targetPos;
     RaycastHit2D hit;
     Animator anim;
@@ -18,31 +18,29 @@ public class Swing : MonoBehaviour
     public float grappleSpeed = 0.5f;
     public float maxVelocity = 10f;
     bool isFacingRight = true;
-    public float maxDistance = 20;
-    public float disconnectDistance = 2f;
+ 
+    public float disconnectDistance = 1f;
 
-    
     private void Awake()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         collider = GetComponent<Collider2D>();
-        joint = GetComponent<DistanceJoint2D>();
-        //joint = GetComponent<SpringJoint2D>();
+        //joint = GetComponent<DistanceJoint2D>();
+        joint = GetComponent<SpringJoint2D>();
         joint.enabled = false;
         line.enabled = false;
     }
    
     private void Update()
     {
-        
+
 
         if (joint.distance > disconnectDistance)
         {
-           // joint.enabled = true;
             joint.distance -= grappleSpeed;
             line.enabled = false;
-
+            //line.SetPosition(0, transform.position);
         }
         else
         {
@@ -54,8 +52,6 @@ public class Swing : MonoBehaviour
         {
             anim.SetTrigger("Shooting");
             targetPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //targetPos.z = 0;
-
             if (transform.position.x < targetPos.x && !isFacingRight)
             {
                 FlipSprite();
@@ -64,7 +60,7 @@ public class Swing : MonoBehaviour
             {
                 FlipSprite();
             }
-           
+            //targetPos.z = 0;
             line.enabled = true;
             line.SetPosition(1, transform.position);
             line.SetPosition(0, targetPos);
@@ -75,22 +71,16 @@ public class Swing : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
-            joint.enabled = true;
             if (hit.collider != null)
             {
-                anim.StopPlayback();
-                anim.SetTrigger("Pull");
-              
-                
+                joint.enabled = true;
                 joint.connectedAnchor = targetPos;
-                joint.connectedBody = hit.collider.GetComponent<Rigidbody2D>();
-                joint.distance = Vector2.Distance(transform.position, hit.point);
-                joint.distance = Mathf.Clamp(joint.distance, 0, maxDistance);
-
-               
+                joint.distance = Vector2.Distance(transform.position, targetPos);
             }
         }
+
     }
+    
     void FlipSprite()
     {
         isFacingRight = !isFacingRight;
@@ -98,6 +88,9 @@ public class Swing : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+
+     
+
     }
     private void FixedUpdate()
     {
@@ -121,7 +114,7 @@ public class Swing : MonoBehaviour
     IEnumerator TogglePlayerCollider() {
         //Stop us from picking up the gameobject again after hit
         collider.enabled = false;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.5f);
         collider.enabled = true;
     }
 

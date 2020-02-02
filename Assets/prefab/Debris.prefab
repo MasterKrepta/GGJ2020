@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 377765335653537573}
   - component: {fileID: 377765335653537572}
   - component: {fileID: 745294936902551787}
+  - component: {fileID: 1814144712787537257}
   m_Layer: 9
   m_Name: Debris
   m_TagString: Debris
@@ -143,4 +144,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprites:
-  - {fileID: 21300000, guid: b152fbb013c81744a9045642b85d258e, type: 3}
+  - {fileID: 21300000, guid: ae601663c1a334f548c99e160b07a1f8, type: 3}
+  - {fileID: 21300000, guid: 142431bf1d7d746c08a060322de8a268, type: 3}
+  - {fileID: 21300000, guid: 5b34660a9566f42678d060364a9f3d5f, type: 3}
+  - {fileID: 21300000, guid: f7c03682880654ded88aba8505700c0b, type: 3}
+  - {fileID: 21300000, guid: 91ea1639a363a4ebea9eafde33ba787a, type: 3}
+  - {fileID: 21300000, guid: 5e243c5d2d1ba4065bd0ee5be3809a02, type: 3}
+  - {fileID: 21300000, guid: 94d897f58466844d69c06c57f4760edb, type: 3}
+  - {fileID: 21300000, guid: a93ca5b8aef4f48dfada8a33c1e70559, type: 3}
+  - {fileID: 21300000, guid: 4c3c7f3d5af1344dfa5bf44638fc3dc0, type: 3}
+  - {fileID: 21300000, guid: 0f4c9ad5563b04444a792f2d027d01d8, type: 3}
+--- !u!114 &1814144712787537257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377765335653537579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ba5fbc1ccbee12418ffdf4dad34eafd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
