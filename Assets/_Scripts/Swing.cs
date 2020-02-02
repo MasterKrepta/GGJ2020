@@ -46,7 +46,7 @@ public class Swing : MonoBehaviour
         }
         else
         {
-            print("detach was called");
+          
             DetachPlayer();
         }
 

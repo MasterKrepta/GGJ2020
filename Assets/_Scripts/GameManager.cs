@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] Transform dropOffLocation;
     public GameObject ActiveBay = null;
     public static Action OnDelivered = delegate { };
-    public static int numberCollected = 0;
+    public int numberRepaired = 0;
 
     private void OnEnable()
     {
@@ -44,7 +45,7 @@ public class GameManager : MonoBehaviour
     void IncreaseCollected()
     {
 
-        numberCollected++;
+        numberRepaired++;
     }
     void spawnNewPickup()
     {
@@ -58,6 +59,7 @@ public class GameManager : MonoBehaviour
 
         int newDropoffLocation = UnityEngine.Random.Range(0, spawnpoints.Length - 1);
 
+
         Transform go = Instantiate(PickupPrefab, spawnpoints[randSpawnPos].position, Quaternion.identity);
         go.position = new Vector3(go.position.x, go.position.y, 0);
         lightSpawnpoints[newDropoffLocation].GetComponent<ApplyColorOnActivaated>().ActivateLights();
@@ -65,5 +67,10 @@ public class GameManager : MonoBehaviour
 
         dropOffLocation.position = spawnpoints[newDropoffLocation].position;
         dropOffLocation.position = new Vector3(dropOffLocation.position.x, dropOffLocation.position.y, 0);
+    }
+
+    public void Respawn()
+    {
+        SceneManager.LoadScene(1);
     }
 }

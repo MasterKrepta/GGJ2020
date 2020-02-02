@@ -9,7 +9,7 @@ public class DeliverPickup : MonoBehaviour
     {
         if (collision.CompareTag("Pickup"))
         {
-            
+            GameManager.OnDelivered();
             Destroy(collision.gameObject);
         }
     }

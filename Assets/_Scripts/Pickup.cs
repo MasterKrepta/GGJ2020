@@ -1,9 +1,16 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Pickup : MonoBehaviour
 {
+
+
+    private void ProcessPickup()
+    {
+        GameManager.Instance.CallOnDelivered();
+    }
 
     private bool isQuitting = false;
 
@@ -25,7 +32,7 @@ public class Pickup : MonoBehaviour
     {
         if (isQuitting != true)
         {
-            GameManager.Instance.CallOnDelivered();
+            
         }
 
     }
