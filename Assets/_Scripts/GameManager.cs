@@ -46,6 +46,7 @@ public class GameManager : MonoBehaviour
     {
 
         numberRepaired++;
+        //Debug.Log(numberRepaired);
     }
     void spawnNewPickup()
     {
