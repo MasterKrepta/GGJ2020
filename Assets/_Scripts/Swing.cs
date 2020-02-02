@@ -92,10 +92,7 @@ public class Swing : MonoBehaviour
      
 
     }
-    private void FixedUpdate()
-    {
-        //rb.velocity = Vector2.ClampMagnitude(rb.velocity.magnitude, maxVelocity);
-    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Debris"))

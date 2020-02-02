@@ -14,12 +14,7 @@ public class DebrisSpawner : MonoBehaviour
         InvokeRepeating("Spawn", 1.0f, spawnRate);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-        
-    }
 
     private void Spawn()
     {

@@ -6,12 +6,18 @@ using UnityEngine;
 public class Pickup : MonoBehaviour
 {
 
-
+    AudioSource audio;
+    [SerializeField] AudioClip[] PickupSounds;
     private void ProcessPickup()
     {
         GameManager.Instance.CallOnDelivered();
     }
 
+
+    private void Start()
+    {
+        audio = GetComponent<AudioSource>();
+    }
     private bool isQuitting = false;
 
     void OnApplicationQuit()
@@ -23,6 +29,13 @@ public class Pickup : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            audio.clip = PickupSounds[UnityEngine.Random.Range(0, PickupSounds.Length - 1)];
+            if (audio.clip != null)
+            {
+                audio.loop = false;
+                audio.Play();
+
+            }
             transform.parent = collision.transform.GetChild(0);
             ArrowManager.OnPickup();
         }
