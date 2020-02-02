@@ -39,10 +39,10 @@ public class Swing : MonoBehaviour
 
         if (joint.distance > disconnectDistance)
         {
-            joint.enabled = true;
+           // joint.enabled = true;
             joint.distance -= grappleSpeed;
             line.enabled = false;
-            //line.SetPosition(0, transform.position);
+
         }
         else
         {
@@ -75,6 +75,7 @@ public class Swing : MonoBehaviour
 
         if (Input.GetMouseButtonUp(0))
         {
+            joint.enabled = true;
             if (hit.collider != null)
             {
                 anim.StopPlayback();
